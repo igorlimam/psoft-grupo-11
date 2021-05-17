@@ -13,6 +13,7 @@ import com.ufcg.psoft.vacineja.model.Vacina;
 import com.ufcg.psoft.vacineja.model.VacinaDoseDois;
 import com.ufcg.psoft.vacineja.model.VacinaDoseUm;
 import com.ufcg.psoft.vacineja.repository.CidadaoRepository;
+import com.ufcg.psoft.vacineja.util.Util;
 
 @Service
 public class CidadaoServiceImpl implements CidadaoService{
@@ -32,12 +33,14 @@ public class CidadaoServiceImpl implements CidadaoService{
 		cidadao.setTelefone(telefone);
 		cidadao.setProfissao(profissao);
 		cidadao.setComorbidades(comorbidades);
-		Cidadao novoCidadao = cidadaoRepository.saveAndFlush(cidadao);
-		for(Vacina vacina: vacinas) {
-			novoCidadao.addVacina(new NaoHabilitado(vacina.getFabricante(), 
-					vacina.getQuantidadeDoses(), vacina.getDiasAteSegundaDose(), 
-					vacina.getProximaDose(), vacina.getDosesTomadas()));
+		if(vacinas != null) {
+			for(Vacina vacina: vacinas) {
+				cidadao.addVacina(new NaoHabilitado(vacina.getFabricante(), 
+						vacina.getQuantidadeDoses(), vacina.getDiasAteSegundaDose(), 
+						vacina.getProximaDose(), vacina.getDosesTomadas()));
+			}
 		}
+		Cidadao novoCidadao = cidadaoRepository.saveAndFlush(cidadao);
 		return novoCidadao.getCpf();
 	}
 	
@@ -86,8 +89,39 @@ public class CidadaoServiceImpl implements CidadaoService{
 			cidadao.addVacina(new NaoHabilitado(vacina.getFabricante(), vacina.getQuantidadeDoses(), 
 					vacina.getDiasAteSegundaDose(), vacina.getProximaDose(), 
 					vacina.getDosesTomadas()));
+			cidadaoRepository.save(cidadao);
 		}
 	}
 
+	@Override
+	public void notificar(int idadeMinima, List<String> comorbidades, List<String> profissoes) {
+		List<Cidadao> cidadaos = cidadaoRepository.findAll();
+		for (Cidadao cidadao : cidadaos) {
+			int index = 0;
+			for (Vacina vacina : cidadao.getVacinasEstado()) {
+				cidadao.avaliarVacina(vacina, idadeMinima, comorbidades, profissoes, index++);
+			}
+			cidadaoRepository.save(cidadao);
+		}
+	}
+
+	@Override
+	public String consultarEstadoVacinas(String cpf) {
+		Cidadao cidadao = buscaCidadao(cpf).get();
+		return Util.stringfyList(cidadao.getVacinasEstado());
+	}
+	
+	@Override
+	public void vacinar(String cpf, long vacinaId) {
+		Cidadao cidadao = buscaCidadao(cpf).get();
+		Vacina vacina = cidadao.getVacinaById(vacinaId);
+		cidadao.aplicarVacina(cidadao.getIndex(vacina));
+		cidadaoRepository.save(cidadao);
+	}
+	
+	@Override
+	public List<Cidadao> getCidadaos() {
+		return cidadaoRepository.findAll();
+	}
 
 }

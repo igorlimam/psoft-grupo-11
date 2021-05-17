@@ -16,5 +16,9 @@ public interface CidadaoService {
 	public boolean agendarVacinaDose(long vacinaId, String cpf, Date data);
 	public List<Vacina> getVacinasCidadao(String cpf);
 	public void addVacina(Vacina vacina);
+	public void notificar(int idadeMinima, List<String> comorbidades, List<String> profissoes);
+	public void vacinar(String cpf, long vacinaId);
+	public List<Cidadao> getCidadaos();
+	public String consultarEstadoVacinas(String cpf);
 
 }

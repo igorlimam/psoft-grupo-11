@@ -8,8 +8,11 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Vacina {
 	
 	@Id
@@ -20,6 +23,7 @@ public class Vacina {
 	private int diasAteSegundaDose;
 	private Date proximaDose;
 	private int dosesTomadas;
+	private String nomeEstado = "Vacina";
 	
 	public Vacina() {}
 	
@@ -41,7 +45,15 @@ public class Vacina {
 		}
 		return ret;
 	}
-	
+
+	public String getNomeEstado() {
+		return nomeEstado;
+	}
+
+	public void setNomeEstado(String nomeEstado) {
+		this.nomeEstado = nomeEstado;
+	}
+
 	public String getFabricante() {
 		return fabricante;
 	}
@@ -78,14 +90,14 @@ public class Vacina {
 		this.dosesTomadas = dosesTomadas;
 	}
 	
-	public void vacinar(Cidadao cidadao, int idadeMinima, List<String> comorbidades, List<String> profissoes, long diaAtual, int index) {};
-	public void habilitar(Cidadao cidadao, int idadeMinima, List<String> comorbidades, List<String> profissoes, long diaAtual, int index) {};
+	public void vacinar(Cidadao cidadao, int index) {};
+	public void habilitar(Cidadao cidadao, int idadeMinima, List<String> comorbidades, List<String> profissoes, int index) {};
 	
 	public boolean isHabilitado(Cidadao cidadao, int idadeMinima, List<String> comorbidades, List<String> profissoes) {
-		boolean umaPraDeusVer = getIdade(cidadao.getDataNascimento()) >= idadeMinima;
-		umaPraDeusVer = umaPraDeusVer || includesComorbidade(comorbidades, cidadao.getComorbidades());
-		umaPraDeusVer = umaPraDeusVer || profissoes.contains(cidadao.getProfissao());
-		return umaPraDeusVer;
+		boolean habilitado = getIdade(cidadao.getDataNascimento()) >= idadeMinima;
+		habilitado = habilitado || includesComorbidade(comorbidades, cidadao.getComorbidades());
+		habilitado = habilitado || profissoes.contains(cidadao.getProfissao());
+		return habilitado;
 	}
 	
 	private int getIdade(Date cidadaoDataNascimento) {

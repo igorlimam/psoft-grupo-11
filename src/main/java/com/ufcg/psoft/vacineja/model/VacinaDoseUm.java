@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+
+@Entity
 public class VacinaDoseUm extends Vacina{
 	
 	public VacinaDoseUm() {
@@ -12,23 +15,26 @@ public class VacinaDoseUm extends Vacina{
 	
 	public VacinaDoseUm(String fabricante, int quantidadeDoses, int diasAteSegundaDose, Date proximaDose, int dosesTomadas) {
 		super(fabricante, quantidadeDoses, diasAteSegundaDose, proximaDose, dosesTomadas);
+		setNomeEstado("Habilitado dose um");
 	}
 	 
 	@Override
-	public void vacinar(Cidadao cidadao, int idadeMinima, List<String> comorbidades, List<String> profissoes, long diaAtual, int index) {
+	public void vacinar(Cidadao cidadao, int index) {
 		setDosesTomadas(getDosesTomadas()+1);
-		this.habilitar(cidadao, idadeMinima, comorbidades, profissoes, diaAtual, index);
-	}
-	
-	@Override
-	public void habilitar(Cidadao cidadao, int idadeMinima, List<String> comorbidades, List<String> profissoes, long diaAtual, int index) {
-		if(getDosesTomadas() >= 1 && getQuantidadeDoses() > 1) {
-			Calendar c = Calendar.getInstance();
-			c.setTime(new Date());
-			c.add(Calendar.DATE, getDiasAteSegundaDose());
-			cidadao.setVacinaEstado(new AguardoDoseDois(getFabricante(), getQuantidadeDoses(), 
-					getDiasAteSegundaDose(), c.getTime(), getDosesTomadas()), 
-					index);
+		if(getDosesTomadas() >= 1) {
+			if(getQuantidadeDoses() > 1) {
+				Calendar c = Calendar.getInstance();
+				c.setTime(new Date());
+				c.add(Calendar.DATE, getDiasAteSegundaDose());
+				cidadao.setVacinaEstado(new AguardoDoseDois(getFabricante(), getQuantidadeDoses(), 
+						getDiasAteSegundaDose(), c.getTime(), getDosesTomadas()), 
+						index);
+			}else {
+				cidadao.setVacinaEstado(new VacinaFinalizada(getFabricante(), getQuantidadeDoses(), 
+						getDiasAteSegundaDose(), getProximaDose(), getDosesTomadas()), 
+						index);
+			}
+			
 		}
 	}
 	

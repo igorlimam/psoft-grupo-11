@@ -1,7 +1,0 @@
-Para o lab 1:
-- Eu, como cliente, quero poder comprar produtos. Adicionar produtos no carrinho.
-- Eu, como cliente, quero saber quais produtos eu estou comprando.
-- Eu, como cliente, quero saber a quantidade de cada produto que estou comprando
-- Eu, como cliente, quero poder finalizar a compra. Com isso, quero dizer comprar todos os produtos no carrinho.
-- Eu, como cliente, quero poder cancelar a compra. Com isso, quero dizer cancelar a compra de todos os produtos no carrinho.
-- Eu, como cliente, quero um relatorio do que estou comprando quando eu finalizar a compra.

@@ -73,7 +73,7 @@ public class CidadaoApiController {
 		return new ResponseEntity<String>(agendado?"agendado":"não foi possivel agendar", HttpStatus.OK);
 	}
 
-	@RequestMapping(value="cidadao/agenda/{cpf}", method=RequestMethod.GET)
+	@RequestMapping(value="cidadao/vacinas/{cpf}", method=RequestMethod.GET)
 	public ResponseEntity<?> listarVacinas(@PathVariable String cpf){
 		List<Vacina> vacinas = cidadaoService.getVacinasCidadao(cpf);
 		return new ResponseEntity<List<Vacina>>(vacinas, HttpStatus.OK);

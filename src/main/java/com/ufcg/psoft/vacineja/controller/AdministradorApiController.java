@@ -55,7 +55,7 @@ public class AdministradorApiController {
 
 		funcionarioService.aprovaFuncionario(optionalFuncionario.get());
 
-		return new ResponseEntity<String>("cidadao " + cpf + " apto como funcionário", HttpStatus.OK);
+		return new ResponseEntity<String>("cidadao de CPF " + cpf + " apto como funcionário", HttpStatus.OK);
 	}
 
 	@DeleteMapping("reprova-funcionario/{cpf}")
@@ -68,7 +68,7 @@ public class AdministradorApiController {
 		
 		funcionarioService.reprovaFuncionario(optionalFuncionario.get());
 
-		return new ResponseEntity<String>("cidadao " + cpf + " foi retirado da lista de funcionarios", HttpStatus.OK);
+		return new ResponseEntity<String>("cidadao de CPF" + cpf + " foi retirado da lista de funcionarios", HttpStatus.OK);
 	}
 	
 	@PostMapping("vacina/")
@@ -77,7 +77,7 @@ public class AdministradorApiController {
 		long idVacina = vacinaService.cadastrarVacina(vacinaDTO.getFabricante(), vacinaDTO.getQuantidadeDoses(),
 				vacinaDTO.getDiasAteSegundaDose());
 		cidadaoService.addVacina(vacinaService.buscarVacina(idVacina).get());
-		return new ResponseEntity<String>("Vacina de ID " + idVacina + "Criada", HttpStatus.OK);
+		return new ResponseEntity<String>("Vacina de ID " + idVacina + " Criada", HttpStatus.OK);
 	}
 	
 }

@@ -5,9 +5,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+
 public class LoteVacinaDTO {
-	@Id
+	
 	private long id;
 	private long idVacina;
 	private int numeroDeDoses;

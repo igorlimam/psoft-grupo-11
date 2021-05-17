@@ -13,6 +13,8 @@ public class ErroCidadao {
 	
 	static final String CIDADAO_JA_ESTA_APTO = "Cidadao de cpf %s já está apto a ser um funcionário";
 	
+	static final String NENHUM_CIDADAO_CADASTRADO = "Nenhum cidadão foi cadastrado.";
+	
 	public static ResponseEntity<CustomErrorType> erroCidadaoNaoCadastrado(String cpf) {		
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroCidadao.CIDADAO_NAO_CADASTRADO, cpf)),
 				HttpStatus.BAD_REQUEST);
@@ -30,6 +32,11 @@ public class ErroCidadao {
 	
 	public static ResponseEntity<CustomErrorType> erroCidadaoJaEstaApto(String cpf) {		
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroCidadao.CIDADAO_JA_ESTA_APTO, cpf)),
+				HttpStatus.BAD_REQUEST);
+	}
+	
+	public static ResponseEntity<CustomErrorType> erroNenhumCidadaoCadastrado() {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroCidadao.NENHUM_CIDADAO_CADASTRADO)),
 				HttpStatus.BAD_REQUEST);
 	}
 }

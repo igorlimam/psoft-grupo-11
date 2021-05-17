@@ -9,7 +9,7 @@ public class Util {
 		StringBuilder str = new StringBuilder();
 		for(Object obj:objList) {
 			str.append(obj.toString());
-			str.append("---------------------\n");
+			str.append("\n---------------------\n");
 		}
 		return str.toString();
 	}
