@@ -1,0 +1,12 @@
+Para o lab1:
+
+Funcionais
+- Adicionar produtos em um carrinho.
+- acumular produtos no carrinho.
+- poder listar os produtos do carrinho.
+- remover todos os produtos do carrinho.
+Não-funcionais
+- A nomenclatura das funcionalidades de acesso será clara.
+- O carrinho não vai perder os produtos selecionados a menos que o sistema caia ou seja reiniciado.
+- Os itens no carrinho são considerados seu enquanto estiverem no carrinho.
+- O desempenho do sistema não será considerado.
